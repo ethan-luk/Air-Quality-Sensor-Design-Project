@@ -1,0 +1,10 @@
+# created by virtualenv automatically
+/.env
+/env
+/.ipynb_checkpoints
+/__pycache__
+/.env.bat
+/data_to_process.txt
+/test.py
+/sensor_data_processing.ipynb
+
