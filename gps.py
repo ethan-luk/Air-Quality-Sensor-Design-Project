@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 # import geocoder
 import json
+import pygeohash
 
 load_dotenv()
 
@@ -19,7 +20,8 @@ def find_current_location():
     results = req.text
     results_dict = json.loads(results)
     print(results_dict)
-    return results_dict
+    geohash = pygeohash.encode(latitude = results_dict["location"]["lat"], longitude = results_dict["location"]["lng"])
+    return geohash
 
 find_current_location()
 

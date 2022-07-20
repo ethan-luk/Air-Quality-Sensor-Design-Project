@@ -114,6 +114,7 @@ void setup() {
 
 
 void loop() {
+  
   //Update data
   MQ3.update();
   MQ4.update();
@@ -139,6 +140,7 @@ void loop() {
  
   MQ135.setA(110.47); MQ135.setB(-2.862); //CO2 
   float CO2 = MQ135.readSensor(); 
+  CO2 = CO2*100;
   
   MQ135.setA(44.947); MQ135.setB(-3.445); // Toluene
   float Toluene = MQ135.readSensor(); 
@@ -171,22 +173,34 @@ void loop() {
 //  Serial.println("--------------------------------------------------------");
 //  delay(1000);
   
-  
-  StaticJsonDocument<300> data;
-  data["alcohol"] = Alcohol;
-  data["benzene"] = Benzene;
-  data["hexane"] = Hexane;
-  data["ch4"] = CH4;
-  data["smoke"] = Smoke;
-  data["co2"] = CO2;
-  data["toluene"] = Toluene;
-  data["nh4"] = NH4;
-  data["acetone"] = Acetone;
-  data["co"] = CO;
-  data["fg"] = FG;
-  serializeJson(data, Serial);
+  float data[11] = {Alcohol, Benzene, Hexane, CH4, Smoke, CO2, Toluene, NH4, Acetone, CO, FG};
+  int len = (sizeof(data)-sizeof(data[0]))/sizeof(data[0]);
+
+  for (int i = 0; i < len; i++) {
+    Serial.print(data[i], 6);
+    Serial.print(", ");
+  }
+  Serial.print(data[10], 6);
   Serial.println();
-  delay(5000);
+  delay(1000);
+
+
+     
+//  StaticJsonDocument<300> data;
+//  data["alcohol"] = Alcohol;
+//  data["benzene"] = Benzene;
+//  data["hexane"] = Hexane;
+//  data["ch4"] = CH4;
+//  data["smoke"] = Smoke;
+//  data["co2"] = CO2;
+//  data["toluene"] = Toluene;
+//  data["nh4"] = NH4;
+//  data["acetone"] = Acetone;
+//  data["co"] = CO;
+//  data["fg"] = FG;
+//  serializeJson(data, Serial);
+//  Serial.println();
+//  delay(5000);
   
 
 }

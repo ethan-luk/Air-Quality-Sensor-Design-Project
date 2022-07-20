@@ -6,27 +6,31 @@ import json
 def read_arduino_data():
     connection = serial.Serial(port='COM4', baudrate=9600)
     print('Established serial connection to Arduino')
-    arduino_data = connection.readline().decode("UTF-32")  # try with UTF-16 and UTF-32
+    arduino_data = connection.readline().decode("UTF-8")
+    
+    data_split = arduino_data.split(",")
+    float_data = []
 
-    try:
-        #parse JSON object
-        data_parsed = json.loads(arduino_data)
-    except json.JSONDecodeError as e:
-        print("JSON:", e)
+    for i in range(len(data_split)):
+        float_data.append(float(data_split[i]))
+    # cleaned = data_split.replace("\r\n","")
 
-    # arduino.close()
-    return data_parsed
+    return float_data
 
-
-
-
+# read_arduino_data()
 
 
-# def to_text_file():
-#   data = read_arduino_data()
-#   with open('data_to_process.txt', 'w') as file:
-#     for key, value in data.items():
-#         file.write(f'{key}:{value}\n')
+#Arduino output in JSON format
+    #print(arduino_data)
+    # try:
+    #     #parse JSON object
+    #     data_parsed = json.loads(arduino_data)
+    # except json.JSONDecodeError as e:
+    #     print("JSON:", e)
+
+    # #connection.close()
+    # return data_parsed
+
 
 # schedule.every(5).seconds.do(read_arduino_data)
 
